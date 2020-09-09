@@ -1,0 +1,15 @@
+
+    dependency requirements:
+        end-begin
+        begin-begin
+        begin-end
+        end-end
+    properties
+        estimated duration
+        group?
+    report
+        estimated delivery time
+            activity durations
+            activity
+        if there is a circular requirement
+
