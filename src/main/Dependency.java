@@ -6,7 +6,6 @@ public final class Dependency {
 
     Dependency(TimePoint previous, long duration){
         assert (previous != null) : "Previous TimePoint is null";
-        assert (duration >= 0) : "Duration is less than 0";
         this.previous = previous;
         this.duration = duration;
     }
@@ -21,10 +20,11 @@ public final class Dependency {
         return previous;
     }
 
-    public final long getDuraction() {
+    public final long getDuration() {
         return duration;
     }
 
+    @Override
     public final String toString(){
         return "Dependency: " + System.identityHashCode(this) + "\nDuration: " + duration + previous.toString();
     }

@@ -1,0 +1,364 @@
+Index: src/main/TimePoint.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main;\r\n\r\nimport java.util.HashSet;\r\nimport java.util.Set;\r\nimport java.util.stream.Collectors;\r\n\r\npublic final class TimePoint {\r\n    private final Set<Dependency> dependencies = new HashSet<>();\r\n    private boolean frozen = false; // regulates whether dependencies can still be added to the time point\r\n\r\n    // Returns all previous time points due to dependences\r\n    public final Set<TimePoint> previewTimePoints(){\r\n        return dependencies.stream().map(i -> i.getPrevious()).collect(Collectors.toSet());\r\n    }\r\n\r\n    // Adds dependency to this time point\r\n    final boolean addPrevious(TimePoint previousTimePoint, long duration){\r\n        return (addPrecondition(previousTimePoint,duration));\r\n    }\r\n\r\n    // Adds dependency of zero duration\r\n    final boolean addPrevious(TimePoint previousTimePoint){\r\n        return (addPrecondition(previousTimePoint,0));\r\n    }\r\n\r\n    private boolean addPrecondition(TimePoint previousTimePoint, long duration){\r\n        assert (previousTimePoint != null) : \"Previous TimePoint is null\";\r\n        assert (!previousTimePoint.isFrozen()) : \"Previous TimePoint is frozen\";\r\n        assert (duration >= 0) : \"Duration is less than 0\";\r\n        dependencies.add(new Dependency(previousTimePoint, duration));\r\n        return true;\r\n    }\r\n\r\n    // Returns number of dependencies\r\n    public final int inDegree(){\r\n        return dependencies.size();\r\n    }\r\n\r\n    // Returns true if this main.TimePoint has any dependencies\r\n    public final boolean isIndependent(){\r\n        return dependencies.isEmpty();\r\n    }\r\n\r\n    public final void freeze(){\r\n        frozen = true;\r\n    }\r\n\r\n    public final boolean isFrozen(){return frozen;}\r\n\r\n    public Set<Dependency> getDependencies() {\r\n        return new HashSet<>(dependencies);\r\n    }\r\n\r\n    // Returns String representation of this TimePoint object and its frozen status\r\n    public final String toSimpleString(){\r\n        return \"\\nTimePoint: \" + System.identityHashCode(this) +  \"\\nFrozen status: \" + frozen;\r\n\r\n    }\r\n\r\n    public String toString(){\r\n        StringBuilder sb = new StringBuilder();\r\n        String output = sb.append(toSimpleString()).append(\"\\nDependencies:\").toString();\r\n        if (dependencies.isEmpty()){\r\n            output = sb.append(\"\\nnone\").toString();\r\n        }\r\n        else {\r\n            for (Dependency d : dependencies) {\r\n                output = sb.append(\"\\n\").append(System.identityHashCode(d)).toString();\r\n            }\r\n        }\r\n        for (Dependency d : dependencies){\r\n            output = sb.append(\"\\n\\n\").append(d.toString()).toString();\r\n        }\r\n        return output;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/TimePoint.java	(revision 42194e5b1509390720ff4a7122b3e7529f08d492)
++++ src/main/TimePoint.java	(date 1599688419735)
+@@ -24,6 +24,7 @@
+     }
+ 
+     private boolean addPrecondition(TimePoint previousTimePoint, long duration){
++        // todo SchedulerException with error codes POINT_FROZEN or INVALID_DURATION
+         assert (previousTimePoint != null) : "Previous TimePoint is null";
+         assert (!previousTimePoint.isFrozen()) : "Previous TimePoint is frozen";
+         assert (duration >= 0) : "Duration is less than 0";
+Index: src/main/Activity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/Activity.java	(date 1599688500195)
++++ src/main/Activity.java	(date 1599688500195)
+@@ -0,0 +1,37 @@
++package main;
++
++public final class Activity {
++
++
++}
++
++/*
++    TimePoint(Activity activity, Side side){
++    }
++
++public enum Side{
++    BEGIN,
++    END;
++
++    private final Activity activity;
++    private final Side side;
++    private final String description;
++
++
++
++
++    public Activity getActivity() {
++        return activity;
++    }
++
++    public Side getSide() {
++        return side;
++    }
++
++    public String getDescription() {
++        return description;
++    }
++
++    //todo tostring?
++}
++*/
+Index: src/main/SchedulerException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main;\r\n\r\npublic final class SchedulerException extends Exception{\r\n\r\n\r\n    //serialVersionUID\r\n    private final Error error;\r\n    private final TimePoint timePoint;\r\n    private final TimePoint otherTimePoint;\r\n\r\n    private SchedulerException(Builder builder){\r\n        error = builder.error;\r\n        timePoint = builder.timePoint;\r\n        otherTimePoint = builder.otherTimePoint;\r\n    }\r\n\r\n    //nested enum\r\n    public enum Error{\r\n\r\n    }\r\n\r\n\r\n    final static class Builder{\r\n        private final Error error;\r\n        private long duration;\r\n        private TimePoint timePoint;\r\n        private TimePoint otherTimePoint;\r\n\r\n        public Builder(Error error){\r\n            this.error = error;\r\n        }\r\n\r\n        final SchedulerException build(){\r\n            //todo with appropriate parameters\r\n            return new SchedulerException(this);\r\n        }\r\n\r\n        public Error getError() {\r\n            return error;\r\n        }\r\n\r\n        public long getDuration() {\r\n            return duration;\r\n        }\r\n\r\n        public void setDuration(long duration) {\r\n            this.duration = duration;\r\n        }\r\n\r\n        public TimePoint getTimePoint() {\r\n            return timePoint;\r\n        }\r\n\r\n        public void setTimePoint(TimePoint timePoint) {\r\n            this.timePoint = timePoint;\r\n        }\r\n\r\n        public TimePoint getOtherTimePoint() {\r\n            return otherTimePoint;\r\n        }\r\n\r\n        public void setOtherTimePoint(TimePoint otherTimePoint) {\r\n            this.otherTimePoint = otherTimePoint;\r\n        }\r\n    }\r\n\r\n    public Error getError() {\r\n        return error;\r\n    }\r\n\r\n    public TimePoint getTimePoint() {\r\n        return timePoint;\r\n    }\r\n\r\n    public TimePoint getOtherTimePoint() {\r\n        return otherTimePoint;\r\n    }\r\n\r\n    public String toString(){\r\n        return \"Error: \" + error.toString() + \"\\nTimePoint: \\n\" + timePoint.toSimpleString() + \"\\nOther Timepoint: \\n\" + otherTimePoint.toSimpleString();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/SchedulerException.java	(revision 42194e5b1509390720ff4a7122b3e7529f08d492)
++++ src/main/SchedulerException.java	(date 1599688341577)
+@@ -16,6 +16,8 @@
+ 
+     //nested enum
+     public enum Error{
++        POINT_FROZEN,
++        INVALID_DURATION;
+ 
+     }
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0c1d5cf7-4304-4374-997a-50d6b07ddeb9\" name=\"Default Changelist\" comment=\"\" />\r\n    <ignored path=\"$PROJECT_DIR$/out/\" />\r\n    <option name=\"EXCLUDED_CONVERTED_TO_IGNORED\" value=\"true\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileEditorManager\">\r\n    <leaf SIDE_TABS_SIZE_LIMIT_KEY=\"300\">\r\n      <file pinned=\"false\" current-in-tab=\"false\">\r\n        <entry file=\"file://$PROJECT_DIR$/src/main/TimePoint.java\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"183\">\r\n              <caret line=\"23\" column=\"5\" selection-start-line=\"23\" selection-start-column=\"5\" selection-end-line=\"23\" selection-end-column=\"5\" />\r\n              <folding>\r\n                <element signature=\"method#previewTimePoints#0;class#TimePoint#0\" />\r\n                <element signature=\"method#addPrevious#0;class#TimePoint#0\" />\r\n                <element signature=\"n#!!block;n#addPrevious#1;n#TimePoint#0\" />\r\n                <element signature=\"method#addPrecondition#0;class#TimePoint#0\" />\r\n                <element signature=\"n#!!block;n#inDegree#0;n#TimePoint#0\" />\r\n                <element signature=\"n#!!block;n#isIndependent#0;n#TimePoint#0\" />\r\n                <element signature=\"n#!!block;n#freeze#0;n#TimePoint#0\" />\r\n                <element signature=\"method#isFrozen#0;class#TimePoint#0\" />\r\n                <element signature=\"method#toSimpleString#0;class#TimePoint#0\" />\r\n                <element signature=\"method#toString#0;class#TimePoint#0\" />\r\n              </folding>\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n      <file pinned=\"false\" current-in-tab=\"false\">\r\n        <entry file=\"file://$PROJECT_DIR$/src/main/Dependency.java\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"408\">\r\n              <caret line=\"28\" column=\"67\" selection-start-line=\"28\" selection-start-column=\"67\" selection-end-line=\"28\" selection-end-column=\"67\" />\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n      <file pinned=\"false\" current-in-tab=\"false\">\r\n        <entry file=\"file://$PROJECT_DIR$/src/main/TimePointTest.java\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"153\">\r\n              <caret line=\"18\" column=\"5\" selection-start-line=\"18\" selection-start-column=\"5\" selection-end-line=\"18\" selection-end-column=\"5\" />\r\n              <folding>\r\n                <element signature=\"method#setUp#0;class#TimePointTest#0\" />\r\n                <element signature=\"method#previewTimePointsTest#0;class#TimePointTest#0\" />\r\n                <element signature=\"method#addPreviousTest#0;class#TimePointTest#0\" />\r\n                <element signature=\"method#isIndependentTest#0;class#TimePointTest#0\" />\r\n                <element signature=\"method#freezeTest#0;class#TimePointTest#0\" />\r\n              </folding>\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n      <file pinned=\"false\" current-in-tab=\"false\">\r\n        <entry file=\"file://$PROJECT_DIR$/src/main/DependencyClassTest.java\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"34\">\r\n              <caret line=\"2\" column=\"39\" selection-start-line=\"2\" selection-start-column=\"39\" selection-end-line=\"2\" selection-end-column=\"39\" />\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n      <file pinned=\"false\" current-in-tab=\"false\">\r\n        <entry file=\"file://$PROJECT_DIR$/src/main/Main.java\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"459\">\r\n              <caret line=\"27\" column=\"1\" lean-forward=\"true\" selection-start-line=\"27\" selection-start-column=\"1\" selection-end-line=\"27\" selection-end-column=\"1\" />\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n      <file pinned=\"false\" current-in-tab=\"true\">\r\n        <entry file=\"file://$PROJECT_DIR$/src/main/SchedulerException.java\">\r\n          <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n            <state relative-caret-position=\"350\">\r\n              <caret line=\"64\" column=\"5\" lean-forward=\"true\" selection-start-line=\"64\" selection-start-column=\"5\" selection-end-line=\"64\" selection-end-column=\"5\" />\r\n              <folding>\r\n                <element signature=\"class#Error#0;class#SchedulerException#0\" />\r\n                <element signature=\"n#!!block;n#Builder#0;n#Builder#0;n#SchedulerException#0\" />\r\n              </folding>\r\n            </state>\r\n          </provider>\r\n        </entry>\r\n      </file>\r\n    </leaf>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JUnit5 Test Class\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"IdeDocumentHistory\">\r\n    <option name=\"CHANGED_PATHS\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/src/notes.txt\" />\r\n        <option value=\"$PROJECT_DIR$/src/Dependency.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/TimePoint.java\" />\r\n        <option value=\"$PROJECT_DIR$/test/TimePointTest.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/test/DependencyTest.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/test/Test.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/test/TimePointTest2.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/test/TimePointTest.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/test/DependencyClassTest.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/main/Dependency.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/main/Main.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/main/TimePoint.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/main/TimePointTest.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/main/DependencyClassTest.java\" />\r\n        <option value=\"$PROJECT_DIR$/src/README.txt\" />\r\n        <option value=\"$PROJECT_DIR$/src/main/SchedulerException.java\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectFrameBounds\" extendedState=\"6\">\r\n    <option name=\"x\" value=\"-9\" />\r\n    <option name=\"y\" value=\"-9\" />\r\n    <option name=\"width\" value=\"977\" />\r\n    <option name=\"height\" value=\"1038\" />\r\n  </component>\r\n  <component name=\"ProjectView\">\r\n    <navigator proportions=\"\" version=\"1\">\r\n      <foldersAlwaysOnTop value=\"true\" />\r\n    </navigator>\r\n    <panes>\r\n      <pane id=\"PackagesPane\" />\r\n      <pane id=\"ProjectPane\">\r\n        <subPane>\r\n          <expand>\r\n            <path>\r\n              <item name=\"scheduler\" type=\"b2602c69:ProjectViewProjectNode\" />\r\n              <item name=\"scheduler\" type=\"462c0819:PsiDirectoryNode\" />\r\n            </path>\r\n            <path>\r\n              <item name=\"scheduler\" type=\"b2602c69:ProjectViewProjectNode\" />\r\n              <item name=\"scheduler\" type=\"462c0819:PsiDirectoryNode\" />\r\n              <item name=\".idea\" type=\"462c0819:PsiDirectoryNode\" />\r\n            </path>\r\n            <path>\r\n              <item name=\"scheduler\" type=\"b2602c69:ProjectViewProjectNode\" />\r\n              <item name=\"scheduler\" type=\"462c0819:PsiDirectoryNode\" />\r\n              <item name=\"src\" type=\"462c0819:PsiDirectoryNode\" />\r\n            </path>\r\n            <path>\r\n              <item name=\"scheduler\" type=\"b2602c69:ProjectViewProjectNode\" />\r\n              <item name=\"scheduler\" type=\"462c0819:PsiDirectoryNode\" />\r\n              <item name=\"src\" type=\"462c0819:PsiDirectoryNode\" />\r\n              <item name=\"main\" type=\"462c0819:PsiDirectoryNode\" />\r\n            </path>\r\n          </expand>\r\n          <select />\r\n        </subPane>\r\n      </pane>\r\n      <pane id=\"Scope\" />\r\n    </panes>\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"Downloaded.Files.Path.Enabled\" value=\"true\" />\r\n    <property name=\"Repository.Attach.Annotations\" value=\"false\" />\r\n    <property name=\"Repository.Attach.JavaDocs\" value=\"false\" />\r\n    <property name=\"Repository.Attach.Sources\" value=\"false\" />\r\n    <property name=\"com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp\" value=\"1599687254874\" />\r\n    <property name=\"com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary\" value=\"JUnit5\" />\r\n    <property name=\"com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5\" value=\"\" />\r\n    <property name=\"create.test.in.the.same.root\" value=\"true\" />\r\n    <property name=\"project.structure.last.edited\" value=\"Modules\" />\r\n    <property name=\"project.structure.proportion\" value=\"0.0\" />\r\n    <property name=\"project.structure.side.proportion\" value=\"0.0\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.lookFeel\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"test\" />\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\aliba\\IdeaProjects\\scheduler\\src\" />\r\n      <recent name=\"C:\\Users\\aliba\\IdeaProjects\\scheduler\\test\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"ruleStates\">\r\n      <list>\r\n        <RuleState>\r\n          <option name=\"name\" value=\"ConfigurationTypeDashboardGroupingRule\" />\r\n        </RuleState>\r\n        <RuleState>\r\n          <option name=\"name\" value=\"StatusDashboardGroupingRule\" />\r\n        </RuleState>\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.Main\">\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.Main\" />\r\n      <module name=\"scheduler\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"main.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"DependencyClassTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"scheduler\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"main.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"main\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.DependencyClassTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"TimePointTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"scheduler\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"main.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"main\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.TimePointTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.Main\" />\r\n        <item itemvalue=\"JUnit.DependencyClassTest\" />\r\n        <item itemvalue=\"JUnit.TimePointTest\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0c1d5cf7-4304-4374-997a-50d6b07ddeb9\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1599158346222</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1599158346222</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TestHistory\">\r\n    <history-entry file=\"TimePointTest - 2020.09.08 at 10h 53m 38s.xml\">\r\n      <configuration name=\"TimePointTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"DependencyClassTest - 2020.09.08 at 15h 35m 25s.xml\">\r\n      <configuration name=\"DependencyClassTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"TimePointTest - 2020.09.09 at 11h 32m 49s.xml\">\r\n      <configuration name=\"TimePointTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"TimePointTest - 2020.09.09 at 15h 33m 49s.xml\">\r\n      <configuration name=\"TimePointTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"TimePointTest - 2020.09.09 at 15h 35m 19s.xml\">\r\n      <configuration name=\"TimePointTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"TimePointTest - 2020.09.09 at 15h 43m 20s.xml\">\r\n      <configuration name=\"TimePointTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"TimePointTest - 2020.09.09 at 15h 47m 24s.xml\">\r\n      <configuration name=\"TimePointTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"TimePointTest - 2020.09.09 at 15h 49m 05s.xml\">\r\n      <configuration name=\"TimePointTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"DependencyClassTest - 2020.09.09 at 15h 50m 05s.xml\">\r\n      <configuration name=\"DependencyClassTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n    <history-entry file=\"DependencyClassTest - 2020.09.09 at 15h 50m 21s.xml\">\r\n      <configuration name=\"DependencyClassTest\" configurationId=\"JUnit\" />\r\n    </history-entry>\r\n  </component>\r\n  <component name=\"ToolWindowManager\">\r\n    <frame x=\"-7\" y=\"-7\" width=\"1550\" height=\"838\" extended-state=\"6\" />\r\n    <editor active=\"true\" />\r\n    <layout>\r\n      <window_info active=\"true\" content_ui=\"combo\" id=\"Project\" order=\"0\" visible=\"true\" weight=\"0.13239247\" />\r\n      <window_info id=\"Structure\" order=\"1\" side_tool=\"true\" weight=\"0.25\" />\r\n      <window_info id=\"Image Layers\" order=\"2\" />\r\n      <window_info id=\"Designer\" order=\"3\" />\r\n      <window_info id=\"UI Designer\" order=\"4\" />\r\n      <window_info id=\"Capture Tool\" order=\"5\" />\r\n      <window_info id=\"Favorites\" order=\"6\" side_tool=\"true\" />\r\n      <window_info anchor=\"bottom\" id=\"Message\" order=\"0\" />\r\n      <window_info anchor=\"bottom\" id=\"Find\" order=\"1\" weight=\"0.32902297\" />\r\n      <window_info anchor=\"bottom\" id=\"Run\" order=\"2\" weight=\"0.5258621\" />\r\n      <window_info anchor=\"bottom\" id=\"Debug\" order=\"3\" weight=\"0.4\" />\r\n      <window_info anchor=\"bottom\" id=\"Cvs\" order=\"4\" weight=\"0.25\" />\r\n      <window_info anchor=\"bottom\" id=\"Inspection\" order=\"5\" weight=\"0.4\" />\r\n      <window_info anchor=\"bottom\" id=\"TODO\" order=\"6\" />\r\n      <window_info anchor=\"bottom\" id=\"Terminal\" order=\"7\" weight=\"0.32998565\" />\r\n      <window_info anchor=\"bottom\" id=\"Event Log\" order=\"8\" side_tool=\"true\" />\r\n      <window_info anchor=\"bottom\" id=\"Version Control\" order=\"9\" />\r\n      <window_info anchor=\"bottom\" id=\"Messages\" order=\"10\" weight=\"0.32954547\" />\r\n      <window_info anchor=\"right\" id=\"Commander\" internal_type=\"SLIDING\" order=\"0\" type=\"SLIDING\" weight=\"0.4\" />\r\n      <window_info anchor=\"right\" id=\"Ant Build\" order=\"1\" weight=\"0.25\" />\r\n      <window_info anchor=\"right\" content_ui=\"combo\" id=\"Hierarchy\" order=\"2\" weight=\"0.25\" />\r\n      <window_info anchor=\"right\" id=\"Palette\" order=\"3\" />\r\n      <window_info anchor=\"right\" id=\"Maven\" order=\"4\" />\r\n      <window_info anchor=\"right\" id=\"Theme Preview\" order=\"5\" />\r\n      <window_info anchor=\"right\" id=\"Capture Analysis\" order=\"6\" />\r\n      <window_info anchor=\"right\" id=\"Palette&#9;\" order=\"7\" />\r\n    </layout>\r\n  </component>\r\n  <component name=\"editorHistoryManager\">\r\n    <entry file=\"file://$PROJECT_DIR$/src/test/DependencyTest\" />\r\n    <entry file=\"file://$PROJECT_DIR$/scheduler.iml\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\" />\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/src/notes.txt\" />\r\n    <entry file=\"file://$PROJECT_DIR$/src/DependencyTest.java\" />\r\n    <entry file=\"file://$PROJECT_DIR$/src/main/TimePoint.java\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"183\">\r\n          <caret line=\"23\" column=\"5\" selection-start-line=\"23\" selection-start-column=\"5\" selection-end-line=\"23\" selection-end-column=\"5\" />\r\n          <folding>\r\n            <element signature=\"method#previewTimePoints#0;class#TimePoint#0\" />\r\n            <element signature=\"method#addPrevious#0;class#TimePoint#0\" />\r\n            <element signature=\"n#!!block;n#addPrevious#1;n#TimePoint#0\" />\r\n            <element signature=\"method#addPrecondition#0;class#TimePoint#0\" />\r\n            <element signature=\"n#!!block;n#inDegree#0;n#TimePoint#0\" />\r\n            <element signature=\"n#!!block;n#isIndependent#0;n#TimePoint#0\" />\r\n            <element signature=\"n#!!block;n#freeze#0;n#TimePoint#0\" />\r\n            <element signature=\"method#isFrozen#0;class#TimePoint#0\" />\r\n            <element signature=\"method#toSimpleString#0;class#TimePoint#0\" />\r\n            <element signature=\"method#toString#0;class#TimePoint#0\" />\r\n          </folding>\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/src/main/Dependency.java\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"408\">\r\n          <caret line=\"28\" column=\"67\" selection-start-line=\"28\" selection-start-column=\"67\" selection-end-line=\"28\" selection-end-column=\"67\" />\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/src/main/DependencyClassTest.java\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"34\">\r\n          <caret line=\"2\" column=\"39\" selection-start-line=\"2\" selection-start-column=\"39\" selection-end-line=\"2\" selection-end-column=\"39\" />\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/src/main/TimePointTest.java\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"153\">\r\n          <caret line=\"18\" column=\"5\" selection-start-line=\"18\" selection-start-column=\"5\" selection-end-line=\"18\" selection-end-column=\"5\" />\r\n          <folding>\r\n            <element signature=\"method#setUp#0;class#TimePointTest#0\" />\r\n            <element signature=\"method#previewTimePointsTest#0;class#TimePointTest#0\" />\r\n            <element signature=\"method#addPreviousTest#0;class#TimePointTest#0\" />\r\n            <element signature=\"method#isIndependentTest#0;class#TimePointTest#0\" />\r\n            <element signature=\"method#freezeTest#0;class#TimePointTest#0\" />\r\n          </folding>\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/src/README.txt\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"119\">\r\n          <caret line=\"7\" lean-forward=\"true\" selection-start-line=\"7\" selection-end-line=\"7\" />\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/src/main/Main.java\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"459\">\r\n          <caret line=\"27\" column=\"1\" lean-forward=\"true\" selection-start-line=\"27\" selection-start-column=\"1\" selection-end-line=\"27\" selection-end-column=\"1\" />\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n    <entry file=\"file://$PROJECT_DIR$/src/main/SchedulerException.java\">\r\n      <provider selected=\"true\" editor-type-id=\"text-editor\">\r\n        <state relative-caret-position=\"350\">\r\n          <caret line=\"64\" column=\"5\" lean-forward=\"true\" selection-start-line=\"64\" selection-start-column=\"5\" selection-end-line=\"64\" selection-end-column=\"5\" />\r\n          <folding>\r\n            <element signature=\"class#Error#0;class#SchedulerException#0\" />\r\n            <element signature=\"n#!!block;n#Builder#0;n#Builder#0;n#SchedulerException#0\" />\r\n          </folding>\r\n        </state>\r\n      </provider>\r\n    </entry>\r\n  </component>\r\n  <component name=\"masterDetails\">\r\n    <states>\r\n      <state key=\"ArtifactsStructureConfigurable.UI\">\r\n        <settings>\r\n          <artifact-editor />\r\n          <splitter-proportions>\r\n            <option name=\"proportions\">\r\n              <list>\r\n                <option value=\"0.2\" />\r\n              </list>\r\n            </option>\r\n          </splitter-proportions>\r\n        </settings>\r\n      </state>\r\n      <state key=\"FacetStructureConfigurable.UI\">\r\n        <settings>\r\n          <last-edited>No facets are configured</last-edited>\r\n          <splitter-proportions>\r\n            <option name=\"proportions\">\r\n              <list>\r\n                <option value=\"0.2\" />\r\n              </list>\r\n            </option>\r\n          </splitter-proportions>\r\n        </settings>\r\n      </state>\r\n      <state key=\"GlobalLibrariesConfigurable.UI\">\r\n        <settings>\r\n          <splitter-proportions>\r\n            <option name=\"proportions\">\r\n              <list>\r\n                <option value=\"0.2\" />\r\n              </list>\r\n            </option>\r\n          </splitter-proportions>\r\n        </settings>\r\n      </state>\r\n      <state key=\"JdkListConfigurable.UI\">\r\n        <settings>\r\n          <last-edited>12</last-edited>\r\n          <splitter-proportions>\r\n            <option name=\"proportions\">\r\n              <list>\r\n                <option value=\"0.2\" />\r\n              </list>\r\n            </option>\r\n          </splitter-proportions>\r\n        </settings>\r\n      </state>\r\n      <state key=\"ModuleStructureConfigurable.UI\">\r\n        <settings>\r\n          <last-edited>scheduler</last-edited>\r\n          <splitter-proportions>\r\n            <option name=\"proportions\">\r\n              <list>\r\n                <option value=\"0.2\" />\r\n              </list>\r\n            </option>\r\n          </splitter-proportions>\r\n        </settings>\r\n      </state>\r\n      <state key=\"ProjectLibrariesConfigurable.UI\">\r\n        <settings>\r\n          <splitter-proportions>\r\n            <option name=\"proportions\">\r\n              <list>\r\n                <option value=\"0.2\" />\r\n              </list>\r\n            </option>\r\n          </splitter-proportions>\r\n        </settings>\r\n      </state>\r\n    </states>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision 42194e5b1509390720ff4a7122b3e7529f08d492)
++++ .idea/workspace.xml	(date 1599709558045)
+@@ -1,7 +1,13 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="0c1d5cf7-4304-4374-997a-50d6b07ddeb9" name="Default Changelist" comment="" />
++    <list default="true" id="0c1d5cf7-4304-4374-997a-50d6b07ddeb9" name="Default Changelist" comment="">
++      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/Activity.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/SchedulerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/SchedulerException.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/TimePoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TimePoint.java" afterDir="false" />
++    </list>
+     <ignored path="$PROJECT_DIR$/out/" />
+     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+     <option name="SHOW_DIALOG" value="false" />
+@@ -11,11 +17,11 @@
+   </component>
+   <component name="FileEditorManager">
+     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+-      <file pinned="false" current-in-tab="false">
++      <file pinned="false" current-in-tab="true">
+         <entry file="file://$PROJECT_DIR$/src/main/TimePoint.java">
+           <provider selected="true" editor-type-id="text-editor">
+-            <state relative-caret-position="183">
+-              <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
++            <state relative-caret-position="153">
++              <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+               <folding>
+                 <element signature="method#previewTimePoints#0;class#TimePoint#0" />
+                 <element signature="method#addPrevious#0;class#TimePoint#0" />
+@@ -69,21 +75,8 @@
+       <file pinned="false" current-in-tab="false">
+         <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+           <provider selected="true" editor-type-id="text-editor">
+-            <state relative-caret-position="459">
+-              <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+-            </state>
+-          </provider>
+-        </entry>
+-      </file>
+-      <file pinned="false" current-in-tab="true">
+-        <entry file="file://$PROJECT_DIR$/src/main/SchedulerException.java">
+-          <provider selected="true" editor-type-id="text-editor">
+-            <state relative-caret-position="350">
+-              <caret line="64" column="5" lean-forward="true" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+-              <folding>
+-                <element signature="class#Error#0;class#SchedulerException#0" />
+-                <element signature="n#!!block;n#Builder#0;n#Builder#0;n#SchedulerException#0" />
+-              </folding>
++            <state relative-caret-position="323">
++              <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+             </state>
+           </provider>
+         </entry>
+@@ -98,6 +91,14 @@
+       </list>
+     </option>
+   </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="Week2" />
++      </map>
++    </option>
++  </component>
+   <component name="IdeDocumentHistory">
+     <option name="CHANGED_PATHS">
+       <list>
+@@ -112,20 +113,21 @@
+         <option value="$PROJECT_DIR$/src/test/DependencyClassTest.java" />
+         <option value="$PROJECT_DIR$/src/main/Dependency.java" />
+         <option value="$PROJECT_DIR$/src/main/Main.java" />
+-        <option value="$PROJECT_DIR$/src/main/TimePoint.java" />
+         <option value="$PROJECT_DIR$/src/main/TimePointTest.java" />
+         <option value="$PROJECT_DIR$/src/main/DependencyClassTest.java" />
+         <option value="$PROJECT_DIR$/src/README.txt" />
+         <option value="$PROJECT_DIR$/src/main/SchedulerException.java" />
++        <option value="$PROJECT_DIR$/src/main/TimePoint.java" />
++        <option value="$PROJECT_DIR$/src/main/Activity.java" />
+       </list>
+     </option>
+   </component>
+   <component name="ProjectFrameBounds" extendedState="6">
+-    <option name="x" value="-9" />
+-    <option name="y" value="-9" />
++    <option name="x" value="952" />
+     <option name="width" value="977" />
+     <option name="height" value="1038" />
+   </component>
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+   <component name="ProjectView">
+     <navigator proportions="" version="1">
+       <foldersAlwaysOnTop value="true" />
+@@ -167,7 +169,7 @@
+     <property name="Repository.Attach.Annotations" value="false" />
+     <property name="Repository.Attach.JavaDocs" value="false" />
+     <property name="Repository.Attach.Sources" value="false" />
+-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1599687254874" />
++    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1599708849443" />
+     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+     <property name="create.test.in.the.same.root" value="true" />
+@@ -247,9 +249,11 @@
+     </configuration>
+     <recent_temporary>
+       <list>
++        <item itemvalue="JUnit.TimePointTest" />
++        <item itemvalue="JUnit.DependencyClassTest" />
+         <item itemvalue="Application.Main" />
++        <item itemvalue="JUnit.TimePointTest" />
+         <item itemvalue="JUnit.DependencyClassTest" />
+-        <item itemvalue="JUnit.TimePointTest" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -300,9 +304,8 @@
+   </component>
+   <component name="ToolWindowManager">
+     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+-    <editor active="true" />
+     <layout>
+-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13239247" />
++      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27217743" />
+       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+       <window_info id="Image Layers" order="2" />
+       <window_info id="Designer" order="3" />
+@@ -316,9 +319,9 @@
+       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+       <window_info anchor="bottom" id="TODO" order="6" />
+-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32998565" />
++      <window_info anchor="bottom" id="Terminal" order="7" weight="0.29829547" />
+       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+-      <window_info anchor="bottom" id="Version Control" order="9" />
++      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.32954547" />
+       <window_info anchor="bottom" id="Messages" order="10" weight="0.32954547" />
+       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+@@ -329,6 +332,32 @@
+       <window_info anchor="right" id="Capture Analysis" order="6" />
+       <window_info anchor="right" id="Palette&#9;" order="7" />
+     </layout>
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State>
++              <option name="RECENTLY_FILTERED_USER_GROUPS">
++                <collection />
++              </option>
++              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
++                <collection />
++              </option>
++              <option name="COLUMN_ORDER">
++                <list>
++                  <option value="0" />
++                  <option value="1" />
++                  <option value="2" />
++                  <option value="3" />
++                </list>
++              </option>
++            </State>
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+   <component name="editorHistoryManager">
+     <entry file="file://$PROJECT_DIR$/src/test/DependencyTest" />
+@@ -337,10 +366,37 @@
+     </entry>
+     <entry file="file://$PROJECT_DIR$/src/notes.txt" />
+     <entry file="file://$PROJECT_DIR$/src/DependencyTest.java" />
++    <entry file="file://$PROJECT_DIR$/src/README.txt">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="119">
++          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
++      <provider selected="true" editor-type-id="text-editor" />
++    </entry>
++    <entry file="file://$PROJECT_DIR$/src/main/SchedulerException.java">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="323">
++          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
++          <folding>
++            <element signature="n#!!block;n#Builder#0;n#Builder#0;n#SchedulerException#0" />
++          </folding>
++        </state>
++      </provider>
++    </entry>
++    <entry file="file://$PROJECT_DIR$/src/main/Activity.java">
++      <provider selected="true" editor-type-id="text-editor">
++        <state relative-caret-position="85">
++          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
++        </state>
++      </provider>
++    </entry>
+     <entry file="file://$PROJECT_DIR$/src/main/TimePoint.java">
+       <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="183">
+-          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
++        <state relative-caret-position="153">
++          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+           <folding>
+             <element signature="method#previewTimePoints#0;class#TimePoint#0" />
+             <element signature="method#addPrevious#0;class#TimePoint#0" />
+@@ -360,13 +416,6 @@
+       <provider selected="true" editor-type-id="text-editor">
+         <state relative-caret-position="408">
+           <caret line="28" column="67" selection-start-line="28" selection-start-column="67" selection-end-line="28" selection-end-column="67" />
+-        </state>
+-      </provider>
+-    </entry>
+-    <entry file="file://$PROJECT_DIR$/src/main/DependencyClassTest.java">
+-      <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="34">
+-          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
+         </state>
+       </provider>
+     </entry>
+@@ -384,28 +433,17 @@
+         </state>
+       </provider>
+     </entry>
+-    <entry file="file://$PROJECT_DIR$/src/README.txt">
++    <entry file="file://$PROJECT_DIR$/src/main/DependencyClassTest.java">
+       <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="119">
+-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
++        <state relative-caret-position="34">
++          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
+         </state>
+       </provider>
+     </entry>
+     <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+       <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="459">
+-          <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+-        </state>
+-      </provider>
+-    </entry>
+-    <entry file="file://$PROJECT_DIR$/src/main/SchedulerException.java">
+-      <provider selected="true" editor-type-id="text-editor">
+-        <state relative-caret-position="350">
+-          <caret line="64" column="5" lean-forward="true" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+-          <folding>
+-            <element signature="class#Error#0;class#SchedulerException#0" />
+-            <element signature="n#!!block;n#Builder#0;n#Builder#0;n#SchedulerException#0" />
+-          </folding>
++        <state relative-caret-position="323">
++          <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+         </state>
+       </provider>
+     </entry>
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/vcs.xml	(date 1599687658826)
++++ .idea/vcs.xml	(date 1599687658826)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file

@@ -2,23 +2,26 @@ package main;
 
 public final class SchedulerException extends Exception{
 
-
-    //serialVersionUID
+    private static final long serialVersionUID = 555L;
     private final Error error;
+    private final long duration;
     private final TimePoint timePoint;
     private final TimePoint otherTimePoint;
 
-    private SchedulerException(Builder builder){
-        error = builder.error;
-        timePoint = builder.timePoint;
-        otherTimePoint = builder.otherTimePoint;
-    }
-
-    //nested enum
     public enum Error{
-
+        POINT_FROZEN,
+        TIME_POINT_EXISTS,
+        POINT_NOT_FROZEN,
+        INVALID_DURATION,
+        INVALID_DEPENDENCY;
     }
 
+    private SchedulerException(Builder builder){
+        error = builder.getError();
+        duration = builder.getDuration();
+        timePoint = builder.getTimePoint();
+        otherTimePoint = builder.getOtherTimePoint();
+    }
 
     final static class Builder{
         private final Error error;
@@ -26,57 +29,77 @@ public final class SchedulerException extends Exception{
         private TimePoint timePoint;
         private TimePoint otherTimePoint;
 
-        public Builder(Error error){
+        Builder(Error error){
             this.error = error;
         }
 
         final SchedulerException build(){
-            //todo with appropriate parameters
             return new SchedulerException(this);
         }
 
-        public Error getError() {
-            return error;
-        }
+        Error getError() {return error;}
 
-        public long getDuration() {
+        long getDuration() {
             return duration;
         }
 
-        public void setDuration(long duration) {
+        Builder setDuration(long duration) {
             this.duration = duration;
+            return this;
         }
 
-        public TimePoint getTimePoint() {
+        TimePoint getTimePoint() {
             return timePoint;
         }
 
-        public void setTimePoint(TimePoint timePoint) {
+        Builder setTimePoint(TimePoint timePoint) {
             this.timePoint = timePoint;
+            return this;
         }
 
-        public TimePoint getOtherTimePoint() {
+        TimePoint getOtherTimePoint() {
             return otherTimePoint;
         }
 
-        public void setOtherTimePoint(TimePoint otherTimePoint) {
+        Builder setOtherTimePoint(TimePoint otherTimePoint) {
             this.otherTimePoint = otherTimePoint;
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            String output = "";
+            output += (error != null) ? "\nError: " + error.toString() : "";
+            output += "\nDuration: " + duration;
+            output += (timePoint != null) ? "\nTimePoint: " + timePoint.toString() : "";
+            output += (otherTimePoint != null) ? "\nOther TimePoint: " + otherTimePoint.toString() : "";
+            return output;
         }
     }
 
-    public Error getError() {
+    public final Error getError() {
         return error;
     }
 
-    public TimePoint getTimePoint() {
+    public final long getDuration() {
+        return duration;
+    }
+
+    public final TimePoint getTimePoint() {
         return timePoint;
     }
 
-    public TimePoint getOtherTimePoint() {
+    public final TimePoint getOtherTimePoint() {
         return otherTimePoint;
     }
 
+    @Override
     public String toString(){
-        return "Error: " + error.toString() + "\nTimePoint: \n" + timePoint.toSimpleString() + "\nOther Timepoint: \n" + otherTimePoint.toSimpleString();
+        String output = "";
+        output += (error != null) ? "\nError: " + error.toString() : "";
+        output += "\nDuration: " + duration;
+        output += (timePoint != null) ? "\nTimePoint: " + timePoint.toString() : "";
+        output += (otherTimePoint != null) ? "\nOther TimePoint: " + otherTimePoint.toString() : "";
+        return output;
     }
 }

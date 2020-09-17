@@ -1,62 +1,48 @@
 package main;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.Assert;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.testng.Assert.*;
+import java.util.concurrent.ThreadLocalRandom;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class DependencyClassTest {
-    private TimePoint timepoint;
-    private int durationPos;
-    private Dependency dependency1;
-    private Dependency dependency2;
+public class DependencyClassTest {
+    private static TimePoint timepoint;
+    private static long duration;
+    private static Dependency dependency1;
+    private static Dependency dependency2;
 
-    @BeforeAll
-    public void setUp(){
+    @BeforeClass
+    public static void setUp() throws Exception{
+        duration = ThreadLocalRandom.current().nextLong(100);
+        ActivityGroup activities = new ActivityGroup();
+        Activity activity = Activity.create(duration, activities, null);
+        TimePoint.Side side = TimePoint.Side.BEGIN;
+        timepoint = new TimePoint(activity, side);
+
         // Nominal case: non null TimePoint, positive duration
-        timepoint = new TimePoint();
-        durationPos = 10;
-        dependency1 = new Dependency(timepoint, durationPos);
+        dependency1 = new Dependency(timepoint, duration);
 
         // Nominal case: non null TimePoint, no duration
         dependency2 = new Dependency(timepoint);
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void constructorTest(){
         // Error case: null TimePoint
-        try {
-            new Dependency(null);
-            fail("Created new dependency despite TimePoint being null");
-        }
-        catch(AssertionError error){
-            assertTrue(true, "Assert did not catch null TimePoint");
-        }
-
-        // Error case: negative duration
-        try {
-            new Dependency(timepoint, -10);
-            fail("Created new dependency despite duration being negative");
-        }
-        catch(AssertionError error){
-            assertTrue(true, "Assert did not catch negative duration");
-        }
+        new Dependency(null);
     }
 
     @Test
     public void getPrevious(){
-        assertEquals(timepoint, dependency1.getPrevious(), "TimePoints do not match");
-        assertEquals(timepoint, dependency2.getPrevious(), "TimePoints do not match");
+        Assert.assertEquals("TimePoints do not match", timepoint, dependency1.getPrevious());
+        Assert.assertEquals("TimePoints do not match", timepoint, dependency2.getPrevious());
     }
 
     @Test
     public void getDuration(){
-        assertEquals(durationPos, dependency1.getDuraction(), "Durations do not match");
-        assertEquals(0, dependency2.getDuraction(), "Durations do not match");
+        Assert.assertEquals("Durations do not match", duration, dependency1.getDuration());
+        Assert.assertEquals("Durations do not match", 0, dependency2.getDuration());
     }
 
 }

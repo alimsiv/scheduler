@@ -6,29 +6,45 @@ import java.util.stream.Collectors;
 
 public final class TimePoint {
     private final Set<Dependency> dependencies = new HashSet<>();
-    private boolean frozen = false; // regulates whether dependencies can still be added to the time point
+    private boolean frozen = false;
+    private final Activity activity;
+    private final Side side;
+    private final String description;
 
-    // Returns all previous time points due to dependences
-    public final Set<TimePoint> previewTimePoints(){
+    public enum Side {
+        BEGIN,
+        END;
+    }
+
+    TimePoint(Activity activity, Side side){
+        this.activity = activity;
+        this.side = side;
+        this.description = activity.getDescription() + ":" + side.name();
+    }
+
+    // Returns all previous time points due to dependencies
+    public final Set<TimePoint> previousTimePoints(){
         return dependencies.stream().map(i -> i.getPrevious()).collect(Collectors.toSet());
     }
 
     // Adds dependency to this time point
     final boolean addPrevious(TimePoint previousTimePoint, long duration){
-        return (addPrecondition(previousTimePoint,duration));
+        return (addPreviousDependency(previousTimePoint,duration));
     }
 
     // Adds dependency of zero duration
     final boolean addPrevious(TimePoint previousTimePoint){
-        return (addPrecondition(previousTimePoint,0));
+        return (addPreviousDependency(previousTimePoint,0));
     }
 
-    private boolean addPrecondition(TimePoint previousTimePoint, long duration){
+    private boolean addPreviousDependency(TimePoint previousTimePoint, long duration){
         assert (previousTimePoint != null) : "Previous TimePoint is null";
-        assert (!previousTimePoint.isFrozen()) : "Previous TimePoint is frozen";
-        assert (duration >= 0) : "Duration is less than 0";
-        dependencies.add(new Dependency(previousTimePoint, duration));
-        return true;
+        assert (!frozen) : new SchedulerException.Builder(SchedulerException.Error.POINT_FROZEN)
+                .setTimePoint(previousTimePoint).build();
+        assert (duration >= 0) : new SchedulerException.Builder(SchedulerException.Error.INVALID_DURATION)
+                .setTimePoint(previousTimePoint)
+                .setDuration(duration).build();
+        return dependencies.add(new Dependency(previousTimePoint, duration));
     }
 
     // Returns number of dependencies
@@ -51,26 +67,46 @@ public final class TimePoint {
         return new HashSet<>(dependencies);
     }
 
-    // Returns String representation of this TimePoint object and its frozen status
-    public final String toSimpleString(){
-        return "\nTimePoint: " + System.identityHashCode(this) +  "\nFrozen status: " + frozen;
-
+    public final Activity getActivity() {
+        return activity;
     }
 
+    public final Side getSide() {
+        return side;
+    }
+
+    public final String getDescription() {
+        return description;
+    }
+
+    // Returns String representation of this TimePoint object and its frozen status
+    public final String toSimpleString(){
+        return "\nTimePoint: " + System.identityHashCode(this) +
+                "\nFrozen status: " + frozen +
+                "\nActivity: " + activity.toString() +
+                "\nSide: " + side.toString() +
+                "\nDescription: " + description.toString();
+    }
+
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        String output = sb.append(toSimpleString()).append("\nDependencies:").toString();
+        String output = sb.append(toSimpleString())
+                .append("\n-------------------------------")
+                .append("\nActivity: ").append(activity.toString())
+                .append("\n-------------------------------")
+                .append("\nDependencies:").toString();
         if (dependencies.isEmpty()){
-            output = sb.append("\nnone").toString();
+            return sb.append("\nnone").toString();
         }
-        else {
-            for (Dependency d : dependencies) {
-                output = sb.append("\n").append(System.identityHashCode(d)).toString();
-            }
+
+        for (Dependency d : dependencies) {
+            output = sb.append("\n").append(System.identityHashCode(d)).toString();
         }
         for (Dependency d : dependencies){
             output = sb.append("\n\n").append(d.toString()).toString();
         }
+
         return output;
     }
 }
