@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Objects;
+
 public final class SchedulerException extends Exception{
 
     private static final long serialVersionUID = 555L;
@@ -13,10 +15,12 @@ public final class SchedulerException extends Exception{
         TIME_POINT_EXISTS,
         POINT_NOT_FROZEN,
         INVALID_DURATION,
-        INVALID_DEPENDENCY;
+        INVALID_DEPENDENCY,
+        CIRCULAR_DEPENDENCY
     }
 
     private SchedulerException(Builder builder){
+        assert (Objects.nonNull(builder)) : "Builder is null";
         error = builder.getError();
         duration = builder.getDuration();
         timePoint = builder.getTimePoint();
@@ -68,12 +72,8 @@ public final class SchedulerException extends Exception{
 
         @Override
         public String toString(){
-            String output = "";
-            output += (error != null) ? "\nError: " + error.toString() : "";
-            output += "\nDuration: " + duration;
-            output += (timePoint != null) ? "\nTimePoint: " + timePoint.toString() : "";
-            output += (otherTimePoint != null) ? "\nOther TimePoint: " + otherTimePoint.toString() : "";
-            return output;
+            return SchedulerException.toStringHelper(error, duration, timePoint, otherTimePoint);
+
         }
     }
 
@@ -93,13 +93,17 @@ public final class SchedulerException extends Exception{
         return otherTimePoint;
     }
 
+    private static String toStringHelper(Error error, long duration, TimePoint timePoint, TimePoint otherTimePoint){
+        StringBuilder sb = new StringBuilder();
+        String output = sb.append((Objects.nonNull(error)) ? "\nError: " + error.toString() : "")
+                .append("\nDuration: ").append(duration)
+                .append((Objects.nonNull(timePoint)) ? "\nTimePoint: " + timePoint.toString() : "")
+                .append((Objects.nonNull(otherTimePoint)) ? "\nOther TimePoint: " + otherTimePoint.toString() : "").toString();
+        return output;
+    }
+
     @Override
     public String toString(){
-        String output = "";
-        output += (error != null) ? "\nError: " + error.toString() : "";
-        output += "\nDuration: " + duration;
-        output += (timePoint != null) ? "\nTimePoint: " + timePoint.toString() : "";
-        output += (otherTimePoint != null) ? "\nOther TimePoint: " + otherTimePoint.toString() : "";
-        return output;
+        return toStringHelper(error, duration, timePoint, otherTimePoint);
     }
 }

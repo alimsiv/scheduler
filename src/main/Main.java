@@ -34,6 +34,6 @@ public class Main {
               t1
          */
 
-        System.out.println(t2.toString());
+        System.out.println(t1.toString());
     }
 }

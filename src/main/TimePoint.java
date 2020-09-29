@@ -1,6 +1,7 @@
 package main;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,10 +14,11 @@ public final class TimePoint {
 
     public enum Side {
         BEGIN,
-        END;
+        END
     }
 
     TimePoint(Activity activity, Side side){
+        Checker.assertNonNull(activity,side);
         this.activity = activity;
         this.side = side;
         this.description = activity.getDescription() + ":" + side.name();
@@ -38,13 +40,17 @@ public final class TimePoint {
     }
 
     private boolean addPreviousDependency(TimePoint previousTimePoint, long duration){
-        assert (previousTimePoint != null) : "Previous TimePoint is null";
-        assert (!frozen) : new SchedulerException.Builder(SchedulerException.Error.POINT_FROZEN)
-                .setTimePoint(previousTimePoint).build();
-        assert (duration >= 0) : new SchedulerException.Builder(SchedulerException.Error.INVALID_DURATION)
-                .setTimePoint(previousTimePoint)
-                .setDuration(duration).build();
+        assert (Objects.nonNull(previousTimePoint)) : "Previous TimePoint is null";
+        assert (!frozen) : buildException(SchedulerException.Error.POINT_FROZEN, previousTimePoint,duration);
+        assert (duration >= 0) : buildException(SchedulerException.Error.INVALID_DURATION, previousTimePoint,duration);
         return dependencies.add(new Dependency(previousTimePoint, duration));
+    }
+
+    private SchedulerException buildException(SchedulerException.Error error, TimePoint t, long duration) {
+        return new SchedulerException.Builder(error)
+                .setTimePoint(t)
+                .setDuration(duration)
+                .build();
     }
 
     // Returns number of dependencies
@@ -81,32 +87,28 @@ public final class TimePoint {
 
     // Returns String representation of this TimePoint object and its frozen status
     public final String toSimpleString(){
-        return "\nTimePoint: " + System.identityHashCode(this) +
-                "\nFrozen status: " + frozen +
-                "\nActivity: " + activity.toString() +
-                "\nSide: " + side.toString() +
-                "\nDescription: " + description.toString();
+        StringBuilder sb = new StringBuilder();
+        return sb.append("\nTimePoint: ").append(System.identityHashCode(this))
+                .append("\n\tDescription: ").append(description)
+                .append("\n\tSide: ").append(side.name())
+                .append("\n\tFrozen status: ").append(frozen)
+                .append("\n\tActivity: ").append(activity.toString().indent(8)).toString();
     }
 
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         String output = sb.append(toSimpleString())
-                .append("\n-------------------------------")
-                .append("\nActivity: ").append(activity.toString())
-                .append("\n-------------------------------")
-                .append("\nDependencies:").toString();
+                .append("\tDependencies:").toString();
         if (dependencies.isEmpty()){
-            return sb.append("\nnone").toString();
+            return sb.append("\n\t\tnone").toString();
         }
-
         for (Dependency d : dependencies) {
-            output = sb.append("\n").append(System.identityHashCode(d)).toString();
+            output = sb.append("\n\t\t").append(System.identityHashCode(d)).toString();
         }
         for (Dependency d : dependencies){
             output = sb.append("\n\n").append(d.toString()).toString();
         }
-
         return output;
     }
 }

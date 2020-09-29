@@ -1,0 +1,14 @@
+
+CHECK FOR::
+
+Automatic C:
+ - check that McCabe complexity isn't  >4
+ - no repeated code
+
+ Other things to check:
+ - labeled break statements
+ - comment else statements
+ - public = throws
+ - private/package-private = assert
+ - toString method in every class
+

@@ -2,7 +2,9 @@ package main;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,6 +18,16 @@ public class TimePointTest {
     private TimePoint timepoint2;
     private TimePoint.Side side1;
     private TimePoint.Side side2;
+
+    /*@Rule
+    ExpectedException expectedException = ExpectedException.none();
+
+    @Test
+    public void t() {
+        ExpectedException
+    }
+*/
+
 
 
     @Before

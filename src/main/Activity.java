@@ -1,7 +1,7 @@
 package main;
 
-import java.security.InvalidParameterException;
 import java.util.EnumMap;
+import java.util.Objects;
 import java.util.Set;
 
 public final class Activity {
@@ -27,11 +27,13 @@ public final class Activity {
 
     final TimePoint extremePoint(TimePoint.Side side){
         //returns the time point at the given side
+        Checker.assertNonNull(side);
         return timePointMap.get(side);
     }
 
     public final Set<Dependency> dependencies(TimePoint.Side side){
         //returns the dependencies at the given side
+        Checker.assertNonNull(side);
         return extremePoint(side).getDependencies();
     }
 
@@ -39,12 +41,17 @@ public final class Activity {
         if (duration < 0){
             SchedulerException.Builder exception = new SchedulerException.Builder(SchedulerException.Error.INVALID_DURATION)
                     .setDuration(duration);
-            throw exception.build();
+            throw new IllegalArgumentException("Duration is negative", exception.build());
         }
-        if (activities == null){
-            throw new InvalidParameterException();
+        // UPDATE - instead of if statements
+        Objects.requireNonNullElse(activities, throw new IllegalArgumentException("ActivityGroup is null"));
+        Objects.requireNonNull
+        // todo - use Objects.requireNonNullElse?
+        if (Objects.isNull(activities)){
+            throw new IllegalArgumentException("ActivityGroup is null");
         }
-        if (description == null){
+        // todo - use Objects.requireNonNullElse?
+        if (Objects.isNull(description)){
             description = "";
         }
         return new Activity(activities, description, duration);
@@ -52,8 +59,8 @@ public final class Activity {
 
     public final boolean addDependency(TimePoint.Side side, TimePoint other) throws SchedulerException{
         // adds a dependency of zero duration from the other time point
-        if (side == null || other == null){
-            throw new InvalidParameterException("Invalid null inputs to addDependency()");
+        if (Objects.isNull(side) || Objects.isNull(other)){
+            throw new IllegalArgumentException("Invalid null inputs to addDependency()");
         }
         TimePoint currentTimePoint = timePointMap.get(side);
         if (frozen){
@@ -61,7 +68,7 @@ public final class Activity {
                     .setTimePoint(currentTimePoint)
                     .setOtherTimePoint(other)
                     .setDuration(duration);
-            throw exception.build();
+            throw new IllegalArgumentException("Duration is negative", exception.build());
         }
         return currentTimePoint.addPrevious(other);
     }
@@ -86,10 +93,11 @@ public final class Activity {
 
     @Override
     public String toString(){
-        String output = "\nDescription: " + description +
-                "\nActivity Group: " + activities.toString() +
-                "\nDuration: " + duration +
-                "\nFrozen status: " + frozen;
-        return output;
+        StringBuilder sb = new StringBuilder();
+        return sb.append("\n").append(System.identityHashCode(this))
+                .append("\nDescription: ").append(description)
+                .append("\nDuration: ").append(duration)
+                .append("\nFrozen status: ").append(frozen)
+                .append("\nActivity Group: ").append(activities.toString().indent(8)).toString();
     }
 }
