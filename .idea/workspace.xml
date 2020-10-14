@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/TimePointSorter.java" line="31" mnemonic="7" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/TimePointSorter.java" line="32" mnemonic="7" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c1d5cf7-4304-4374-997a-50d6b07ddeb9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/Checker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/TimePointCounter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/TimePointCounterGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/TimePointSorter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/Activity.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/Activity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/ActivityGroup.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/ActivityGroup.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/Dependency.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/Dependency.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/SchedulerException$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/SchedulerException$Builder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/SchedulerException$Error.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/SchedulerException$Error.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/SchedulerException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/SchedulerException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/TimePoint$Side.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/TimePoint$Side.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/TimePoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/TimePoint.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/scheduler/main/TimePointTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/scheduler/main/TimePointTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/README.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Activity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/ActivityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ActivityGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ActivityGroupTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/ActivityGroupTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Checker.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Dependency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Dependency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/SchedulerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/SchedulerException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/TimePoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TimePoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/TimePointTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TimePointTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/TimePointCounterGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TimePointCounterGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/TimePointSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TimePointSorter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/ams560_scheduler.zip" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="C:\Users\aliba\IdeaProjects\scheduler\.idea\shelf/" />
@@ -56,62 +44,15 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/Activity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="47" column="30" lean-forward="true" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
-              <folding>
-                <element signature="method#addDependency#0;class#Activity#0" />
-                <element signature="method#freeze#0;class#Activity#0" />
-                <element signature="method#toString#0;class#Activity#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/Checker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/SchedulerException.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
-              <folding>
-                <element signature="method#SchedulerException#0;class#SchedulerException#0" />
-                <element signature="class#Builder#0;class#SchedulerException#0" />
-                <element signature="n#!!block;n#Builder#0;n#Builder#0;n#SchedulerException#0" />
-                <element signature="n#!!block;n#build#0;n#Builder#0;n#SchedulerException#0" />
-                <element signature="method#getError#0;class#Builder#0;class#SchedulerException#0" />
-                <element signature="method#setDuration#0;class#Builder#0;class#SchedulerException#0" />
-                <element signature="method#setTimePoint#0;class#Builder#0;class#SchedulerException#0" />
-                <element signature="method#setOtherTimePoint#0;class#Builder#0;class#SchedulerException#0" />
-                <element signature="method#toString#0;class#Builder#0;class#SchedulerException#0" />
-                <element signature="method#toStringHelper#0;class#SchedulerException#0" />
-                <element signature="n#!!block;n#toString#0;n#SchedulerException#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/TimePoint.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
+            <state relative-caret-position="578">
+              <caret line="46" column="5" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
               <folding>
                 <element signature="class#Side#0;class#TimePoint#0" />
                 <element signature="method#previousTimePoints#0;class#TimePoint#0" />
                 <element signature="method#addPrevious#0;class#TimePoint#0" />
                 <element signature="n#!!block;n#addPrevious#1;n#TimePoint#0" />
-                <element signature="method#addPreviousDependency#0;class#TimePoint#0" />
-                <element signature="method#buildException#0;class#TimePoint#0" />
                 <element signature="n#!!block;n#inDegree#0;n#TimePoint#0" />
                 <element signature="n#!!block;n#isIndependent#0;n#TimePoint#0" />
                 <element signature="n#!!block;n#freeze#0;n#TimePoint#0" />
@@ -123,13 +64,14 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/ActivityGroup.java">
+        <entry file="file://$PROJECT_DIR$/src/main/Dependency.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="85">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
               <folding>
-                <element signature="method#sort#0;class#ActivityGroup#0" />
-                <element signature="method#toString#0;class#ActivityGroup#0" />
+                <element signature="e#237#238#0" expanded="true" />
+                <element signature="e#270#271#0" expanded="true" />
+                <element signature="method#toString#0;class#Dependency#0" />
               </folding>
             </state>
           </provider>
@@ -138,8 +80,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/TimePointCounterGroup.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="50" column="35" lean-forward="true" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
+            <state relative-caret-position="731">
+              <caret line="45" column="28" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -153,24 +95,39 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/TimePointSorter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="23" column="71" lean-forward="true" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
-              <folding>
-                <element signature="e#215#216#0" expanded="true" />
-                <element signature="e#259#260#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/TimePointSorter.java">
+        <entry file="file://$PROJECT_DIR$/src/main/SchedulerException.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+            <state relative-caret-position="479">
+              <caret line="36" column="128" selection-start-line="36" selection-start-column="120" selection-end-line="36" selection-end-column="128" />
+              <folding>
+                <element signature="method#SchedulerException#0;class#SchedulerException#0" />
+                <element signature="class#Builder#0;class#SchedulerException#0" />
+                <element signature="n#!!block;n#Builder#0;n#Builder#0;n#SchedulerException#0" />
+                <element signature="n#!!block;n#build#0;n#Builder#0;n#SchedulerException#0" />
+                <element signature="method#getError#0;class#Builder#0;class#SchedulerException#0" />
+                <element signature="method#setDuration#0;class#Builder#0;class#SchedulerException#0" />
+                <element signature="method#setTimePoint#0;class#Builder#0;class#SchedulerException#0" />
+                <element signature="method#setOtherTimePoint#0;class#Builder#0;class#SchedulerException#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/ActivityGroupTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="3" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -179,10 +136,33 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+        <entry file="file://$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+            <state relative-caret-position="374">
+              <caret line="24" column="81" selection-start-line="24" selection-start-column="81" selection-end-line="24" selection-end-column="81" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/ActivityGroup.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+              <folding>
+                <element signature="method#sort#0;class#ActivityGroup#0" />
+                <element signature="method#buildSchedulerException#0;class#ActivityGroup#0" />
+                <element signature="method#toString#0;class#ActivityGroup#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/Notes.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -211,12 +191,24 @@
       <find>foreach</find>
       <find>stringb</find>
       <find>tostring</find>
-      <find>throw</find>
       <find>build</find>
       <find>schedulerex</find>
       <find>assert</find>
       <find>size</find>
+      <find>independent</find>
+      <find>checker.</find>
+      <find>checker</find>
+      <find>illegal</find>
+      <find>UPDATE</find>
+      <find>Schedule</find>
+      <find>Checker</find>
+      <find>update</find>
+      <find>Ch</find>
+      <find>throw</find>
     </findStrings>
+    <replaceStrings>
+      <replace>SchedulerException</replace>
+    </replaceStrings>
     <dirStrings>
       <dir>C:\Users\aliba\IdeaProjects\scheduler\src\main</dir>
     </dirStrings>
@@ -240,32 +232,30 @@
         <option value="$PROJECT_DIR$/scheduler.iml" />
         <option value="$PROJECT_DIR$/src/main/DependencyClassTest.java" />
         <option value="$PROJECT_DIR$/src/main/ActivityTest.java" />
-        <option value="$PROJECT_DIR$/src/main/ActivityGroupTest.java" />
         <option value="$PROJECT_DIR$/src/main/SchedulerExceptionTest.java" />
         <option value="$PROJECT_DIR$/src/README.txt" />
         <option value="$PROJECT_DIR$/src/main/Notes.tst" />
         <option value="$PROJECT_DIR$/src/main/TimePointTest.java" />
-        <option value="$PROJECT_DIR$/src/main/Notes.txt" />
-        <option value="$PROJECT_DIR$/src/main/Dependency.java" />
-        <option value="$PROJECT_DIR$/src/main/README.md" />
         <option value="$PROJECT_DIR$/src/main/Main.java" />
         <option value="$PROJECT_DIR$/src/main/TimePointCounter.java" />
+        <option value="$PROJECT_DIR$/src/main/Dependency.java" />
         <option value="$PROJECT_DIR$/src/main/TimePointCounterGroup.java" />
-        <option value="$PROJECT_DIR$/src/main/TimePointSorter.java" />
-        <option value="$PROJECT_DIR$/src/main/SchedulerException.java" />
         <option value="$PROJECT_DIR$/src/main/Checker.java" />
-        <option value="$PROJECT_DIR$/src/main/ActivityGroup.java" />
-        <option value="$PROJECT_DIR$/src/main/Activity.java" />
-        <option value="$PROJECT_DIR$/src/main/TimePoint.java" />
         <option value="$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java" />
+        <option value="$PROJECT_DIR$/src/main/SchedulerException.java" />
+        <option value="$PROJECT_DIR$/src/main/TimePoint.java" />
+        <option value="$PROJECT_DIR$/src/main/Activity.java" />
+        <option value="$PROJECT_DIR$/src/main/TimePointSorter.java" />
+        <option value="$PROJECT_DIR$/src/main/README.md" />
+        <option value="$PROJECT_DIR$/src/main/ActivityGroup.java" />
+        <option value="$PROJECT_DIR$/src/main/Notes.txt" />
+        <option value="$PROJECT_DIR$/src/main/ActivityGroupTest.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
-    <option name="width" value="1940" />
-    <option name="height" value="1100" />
+    <option name="width" value="1943" />
+    <option name="height" value="1103" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -273,8 +263,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -302,6 +290,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -318,7 +308,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -499,8 +489,8 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.37058824" visible="true" weight="0.11357527" />
-      <window_info id="Structure" order="1" sideWeight="0.50213677" side_tool="true" weight="0.13333334" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.42164782" visible="true" weight="0.24596775" />
+      <window_info id="Structure" order="1" sideWeight="0.57835215" side_tool="true" weight="0.25268817" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -512,8 +502,8 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39971346" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info active="true" anchor="bottom" id="TODO" order="6" sideWeight="0.49865228" visible="true" weight="0.22869319" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4989899" weight="0.14730878" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49865228" weight="0.22869319" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4989899" weight="0.12073863" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5013477" side_tool="true" weight="0.28304598" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.29469123" />
@@ -585,13 +575,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/ActivityGroupTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/SchedulerExceptionTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -613,13 +596,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/DependencyClassTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -631,25 +607,75 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/README.txt" />
+    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/Checker.java" />
     <entry file="file://$PROJECT_DIR$/src/main/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="170">
-            <caret line="10" column="58" selection-start-line="10" selection-start-column="58" selection-end-line="10" selection-end-column="58" />
+          <first_editor relative-caret-position="221">
+            <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="54" column="20" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
+          <folding>
+            <element signature="method#freeze#0;class#Activity#0" />
+            <element signature="e#2881#2882#0" expanded="true" />
+            <element signature="e#2914#2915#0" expanded="true" />
+            <element signature="e#2947#2948#0" expanded="true" />
+            <element signature="e#2978#2979#0" expanded="true" />
+            <element signature="e#3022#3023#0" expanded="true" />
+            <element signature="e#3056#3057#0" expanded="true" />
+            <element signature="method#toString#0;class#Activity#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/TimePoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="46" column="5" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+          <folding>
+            <element signature="class#Side#0;class#TimePoint#0" />
+            <element signature="method#previousTimePoints#0;class#TimePoint#0" />
+            <element signature="method#addPrevious#0;class#TimePoint#0" />
+            <element signature="n#!!block;n#addPrevious#1;n#TimePoint#0" />
+            <element signature="n#!!block;n#inDegree#0;n#TimePoint#0" />
+            <element signature="n#!!block;n#isIndependent#0;n#TimePoint#0" />
+            <element signature="n#!!block;n#freeze#0;n#TimePoint#0" />
+            <element signature="method#isFrozen#0;class#TimePoint#0" />
+            <element signature="method#toString#0;class#TimePoint#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/Dependency.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
+        <state relative-caret-position="85">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
           <folding>
-            <element signature="method#Dependency#0;class#Dependency#0" />
-            <element signature="method#Dependency#1;class#Dependency#0" />
+            <element signature="e#237#238#0" expanded="true" />
+            <element signature="e#270#271#0" expanded="true" />
             <element signature="method#toString#0;class#Dependency#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/TimePointCounterGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="45" column="28" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -660,34 +686,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/TimePointSorter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/TimePointSorter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        <state relative-caret-position="374">
+          <caret line="24" column="81" selection-start-line="24" selection-start-column="81" selection-end-line="24" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/ActivityGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="method#sort#0;class#ActivityGroup#0" />
+            <element signature="method#buildSchedulerException#0;class#ActivityGroup#0" />
+            <element signature="method#toString#0;class#ActivityGroup#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Checker.java">
+    <entry file="file://$PROJECT_DIR$/src/main/Notes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="255">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/SchedulerException.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+        <state relative-caret-position="479">
+          <caret line="36" column="128" selection-start-line="36" selection-start-column="120" selection-end-line="36" selection-end-column="128" />
           <folding>
             <element signature="method#SchedulerException#0;class#SchedulerException#0" />
             <element signature="class#Builder#0;class#SchedulerException#0" />
@@ -697,70 +732,16 @@
             <element signature="method#setDuration#0;class#Builder#0;class#SchedulerException#0" />
             <element signature="method#setTimePoint#0;class#Builder#0;class#SchedulerException#0" />
             <element signature="method#setOtherTimePoint#0;class#Builder#0;class#SchedulerException#0" />
-            <element signature="method#toString#0;class#Builder#0;class#SchedulerException#0" />
-            <element signature="method#toStringHelper#0;class#SchedulerException#0" />
-            <element signature="n#!!block;n#toString#0;n#SchedulerException#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/ActivityGroup.java">
+    <entry file="file://$PROJECT_DIR$/src/main/ActivityGroupTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="17">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="3" selection-end-column="22" />
           <folding>
-            <element signature="method#sort#0;class#ActivityGroup#0" />
-            <element signature="method#toString#0;class#ActivityGroup#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Activity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="47" column="30" lean-forward="true" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
-          <folding>
-            <element signature="method#addDependency#0;class#Activity#0" />
-            <element signature="method#freeze#0;class#Activity#0" />
-            <element signature="method#toString#0;class#Activity#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/TimePoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
-          <folding>
-            <element signature="class#Side#0;class#TimePoint#0" />
-            <element signature="method#previousTimePoints#0;class#TimePoint#0" />
-            <element signature="method#addPrevious#0;class#TimePoint#0" />
-            <element signature="n#!!block;n#addPrevious#1;n#TimePoint#0" />
-            <element signature="method#addPreviousDependency#0;class#TimePoint#0" />
-            <element signature="method#buildException#0;class#TimePoint#0" />
-            <element signature="n#!!block;n#inDegree#0;n#TimePoint#0" />
-            <element signature="n#!!block;n#isIndependent#0;n#TimePoint#0" />
-            <element signature="n#!!block;n#freeze#0;n#TimePoint#0" />
-            <element signature="method#isFrozen#0;class#TimePoint#0" />
-            <element signature="method#toString#0;class#TimePoint#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/TimePointCounterGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="50" column="35" lean-forward="true" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/TimePointSuccessorGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="23" column="71" lean-forward="true" selection-start-line="23" selection-start-column="71" selection-end-line="23" selection-end-column="71" />
-          <folding>
-            <element signature="e#215#216#0" expanded="true" />
-            <element signature="e#259#260#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

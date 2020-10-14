@@ -1,21 +1,17 @@
 package main;
 
-import java.util.Objects;
-
 public final class Dependency {
     private final TimePoint previous; //previous time point
     private final long duration; //length of time that must pass since the previous time point
 
-    Dependency(TimePoint previous, long duration){
-        assert (Objects.nonNull(previous)) : "Previous TimePoint is null";
-        this.previous = previous;
-        this.duration = duration;
+    Dependency(TimePoint previous){
+        this(previous, 0);
     }
 
-    Dependency(TimePoint previous){
-        assert (Objects.nonNull(previous)) : "Previous TimePoint is null";
+    Dependency(TimePoint previous, long duration){
+        SchedulerException.assertNonNull(previous);
         this.previous = previous;
-        this.duration = 0;
+        this.duration = duration;
     }
 
     public final TimePoint getPrevious() {

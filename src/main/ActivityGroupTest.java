@@ -3,12 +3,10 @@ package main;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static org.junit.Assert.*;
 
 public class ActivityGroupTest {
     Collection<TimePoint> timePointList = new ArrayList<>();

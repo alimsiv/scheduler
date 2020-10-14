@@ -13,27 +13,46 @@ public final class ActivityGroup {
     // UPDATE - new method
     public static final LinkedHashMap<TimePoint, Long> timeline(List<TimePoint> sortedPoints){
         // takes a sorted list of time points and assigns them to their timeline
+        SchedulerException.assertNonNull(sortedPoints);
+        LinkedHashMap<TimePoint, Long> timelineMap = new LinkedHashMap<>();
 
-        LinkedHashMap<TimePoint, Long> timeline = new LinkedHashMap<>();
-
-        // todo -  time point t cannot find the completion time of a predecessor.
-        //information should include a SchedulerException for CIRCULAR_DEPENDENCY with the predecessor and the dependency duration.
-
-        return timeline;
+        for (TimePoint timePoint : sortedPoints){
+            // TODO - remove isIndependent
+            if (timePoint.isIndependent()){
+                timelineMap.put(timePoint, 0L);
+            }
+            else {
+                timelineMap.put(timePoint, maxStartTime(timePoint, timelineMap));
+            }
+        }
+        return timelineMap;
     }
 
-    // todo - use varargs?
+    // UPDATE - new helper method
+    private static long maxStartTime(TimePoint timePoint, LinkedHashMap<TimePoint, Long> timelineMap){
+        long maxTime = 0L;
+        for (Dependency dependency : timePoint.getDependencies()){
+            TimePoint predecessor = dependency.getPrevious();
+            long duration = dependency.getDuration();
+            if (!timelineMap.containsKey(predecessor)){
+                throw new IllegalArgumentException("Circular dependency", SchedulerException.buildSchedulerException(SchedulerException.Error.CIRCULAR_DEPENDENCY, predecessor, duration).build());
+            }
+            maxTime = Math.max(maxTime, timelineMap.get(predecessor) + duration);
+        }
+        return maxTime;
+    }
+
     final void addTimePoints(Collection<TimePoint> timePoints){
-        assert (Objects.nonNull(timePoints)) : "timePoints is null";
-        for (TimePoint t: timePoints) {
-            assert (Objects.nonNull(t)) : "TimePoint is null";
-            assert (t.isFrozen()) : buildException(SchedulerException.Error.POINT_NOT_FROZEN, t);
-            assert (!timePointList.contains(t)) : buildException(SchedulerException.Error.TIME_POINT_EXISTS, t);
-            timePointList.add(t);
+        SchedulerException.assertNonNull(timePoints);
+        for (TimePoint timePoint: timePoints) {
+            SchedulerException.assertNonNull(timePoint);
+            assert (timePoint.isFrozen()) : buildSchedulerException(SchedulerException.Error.POINT_NOT_FROZEN, timePoint);
+            assert (!timePointList.contains(timePoint)) : buildSchedulerException(SchedulerException.Error.TIME_POINT_EXISTS, timePoint);
+            timePointList.add(timePoint);
         }
     }
 
-    private SchedulerException buildException(SchedulerException.Error error, TimePoint t){
+    private SchedulerException buildSchedulerException(SchedulerException.Error error, TimePoint t){
         return new SchedulerException.Builder(error)
                 .setTimePoint(t)
                 .build();
@@ -52,7 +71,4 @@ public final class ActivityGroup {
         }
         return output;
     }
-
-
-    //todo: check out @Rule for testing
 }

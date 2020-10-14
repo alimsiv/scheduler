@@ -10,24 +10,25 @@ final class TimePointSuccessorGroup {
     }
 
     final Set<TimePoint> getSuccessors(TimePoint timePoint){
-        assert (Objects.nonNull(timePoint)) : "Time point is null";
+        SchedulerException.assertNonNull(timePoint);
+        assert (successors.containsKey(timePoint)) : "Time Point is not in map";
         return successors.get(timePoint);
     }
-
 
     // UPDATE - reimplemented method
     static final TimePointSuccessorGroup create(Set<TimePoint> timePoints){
         // sets the successors by running through the previous time points of the arguments.
-        assert (Objects.nonNull(timePoints)) : "Time points are null";
+        SchedulerException.assertNonNull(timePoints);
         Map<TimePoint, Set<TimePoint>> successors = new HashMap<>();
         for (TimePoint timePoint : timePoints){
-            assert (Objects.nonNull(timePoint)) : "Time point is null";
-            successors.put(timePoint, findSuccessorsOfTimePoint(timePoint, timePoints));
+            SchedulerException.assertNonNull(timePoint);
+            successors.put(timePoint, successorsOfTimePoint(timePoint, timePoints));
         }
         return new TimePointSuccessorGroup(successors);
     }
 
-    static final Set<TimePoint> findSuccessorsOfTimePoint(TimePoint timePoint, Set<TimePoint> timePoints){
+    // UPDATE - new helper method
+    private static Set<TimePoint> successorsOfTimePoint(TimePoint timePoint, Set<TimePoint> timePoints){
         Set<TimePoint> successorsOfTimePoint = new HashSet<>();
         for (TimePoint potentialSuccessor : timePoints){
             if (potentialSuccessor.previousTimePoints().contains(timePoint)){

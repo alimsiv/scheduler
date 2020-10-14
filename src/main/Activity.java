@@ -27,34 +27,23 @@ public final class Activity {
 
     final TimePoint extremePoint(TimePoint.Side side){
         //returns the time point at the given side
-        Checker.assertNonNull(side);
+        SchedulerException.assertNonNull(side);
         return timePointMap.get(side);
     }
 
     public final Set<Dependency> dependencies(TimePoint.Side side){
         //returns the dependencies at the given side
-        Checker.assertNonNull(side);
+        SchedulerException.assertNonNull(side);
         return extremePoint(side).getDependencies();
     }
 
     public static final Activity create(long duration, ActivityGroup activities, String description) throws SchedulerException{
         if (duration < 0){
-            SchedulerException.Builder exception = new SchedulerException.Builder(SchedulerException.Error.INVALID_DURATION)
-                    .setDuration(duration);
-            throw new IllegalArgumentException("Duration is negative", exception.build());
+            throw new IllegalArgumentException("Duration is negative", SchedulerException.buildSchedulerException(SchedulerException.Error.INVALID_DURATION, null, duration).build());
         }
-        // UPDATE - instead of if statements
-        Objects.requireNonNullElse(activities, throw new IllegalArgumentException("ActivityGroup is null"));
-        Objects.requireNonNull
-        // todo - use Objects.requireNonNullElse?
-        if (Objects.isNull(activities)){
-            throw new IllegalArgumentException("ActivityGroup is null");
-        }
-        // todo - use Objects.requireNonNullElse?
-        if (Objects.isNull(description)){
-            description = "";
-        }
-        return new Activity(activities, description, duration);
+
+        Objects.requireNonNull(activities);
+        return new Activity(activities, Objects.requireNonNullElse(description, ""), duration);
     }
 
     public final boolean addDependency(TimePoint.Side side, TimePoint other) throws SchedulerException{
@@ -64,11 +53,10 @@ public final class Activity {
         }
         TimePoint currentTimePoint = timePointMap.get(side);
         if (frozen){
-            SchedulerException.Builder exception = new SchedulerException.Builder(SchedulerException.Error.INVALID_DEPENDENCY)
+            throw new IllegalArgumentException("Duration is negative", new SchedulerException.Builder(SchedulerException.Error.INVALID_DEPENDENCY)
                     .setTimePoint(currentTimePoint)
                     .setOtherTimePoint(other)
-                    .setDuration(duration);
-            throw new IllegalArgumentException("Duration is negative", exception.build());
+                    .setDuration(duration).build());
         }
         return currentTimePoint.addPrevious(other);
     }

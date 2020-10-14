@@ -18,7 +18,7 @@ public final class TimePoint {
     }
 
     TimePoint(Activity activity, Side side){
-        Checker.assertNonNull(activity,side);
+        SchedulerException.assertNonNull(activity,side);
         this.activity = activity;
         this.side = side;
         this.description = activity.getDescription() + ":" + side.name();
@@ -26,7 +26,7 @@ public final class TimePoint {
 
     // Returns all previous time points due to dependencies
     public final Set<TimePoint> previousTimePoints(){
-        return dependencies.stream().map(i -> i.getPrevious()).collect(Collectors.toSet());
+        return dependencies.stream().map(dependency -> dependency.getPrevious()).collect(Collectors.toSet());
     }
 
     // Adds dependency to this time point
@@ -40,17 +40,10 @@ public final class TimePoint {
     }
 
     private boolean addPreviousDependency(TimePoint previousTimePoint, long duration){
-        assert (Objects.nonNull(previousTimePoint)) : "Previous TimePoint is null";
-        assert (!frozen) : buildException(SchedulerException.Error.POINT_FROZEN, previousTimePoint,duration);
-        assert (duration >= 0) : buildException(SchedulerException.Error.INVALID_DURATION, previousTimePoint,duration);
+        SchedulerException.assertNonNull(previousTimePoint);
+        assert (!frozen) : SchedulerException.buildSchedulerException(SchedulerException.Error.POINT_FROZEN, previousTimePoint,duration);
+        assert (duration >= 0) : SchedulerException.buildSchedulerException(SchedulerException.Error.INVALID_DURATION, previousTimePoint,duration);
         return dependencies.add(new Dependency(previousTimePoint, duration));
-    }
-
-    private SchedulerException buildException(SchedulerException.Error error, TimePoint t, long duration) {
-        return new SchedulerException.Builder(error)
-                .setTimePoint(t)
-                .setDuration(duration)
-                .build();
     }
 
     // Returns number of dependencies

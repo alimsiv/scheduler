@@ -20,11 +20,24 @@ public final class SchedulerException extends Exception{
     }
 
     private SchedulerException(Builder builder){
-        assert (Objects.nonNull(builder)) : "Builder is null";
+        SchedulerException.assertNonNull(builder);
         error = builder.getError();
         duration = builder.getDuration();
         timePoint = builder.getTimePoint();
         otherTimePoint = builder.getOtherTimePoint();
+    }
+
+    static void assertNonNull(Object ...objects){
+        for (Object object : objects){
+            assert (Objects.nonNull(object)) : "Object is null";
+        }
+    }
+
+
+    static SchedulerException.Builder buildSchedulerException(SchedulerException.Error error, TimePoint timePoint, long duration){
+        return new SchedulerException.Builder(error)
+                .setTimePoint(timePoint)
+                .setDuration(duration);
     }
 
     final static class Builder{

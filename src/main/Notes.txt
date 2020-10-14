@@ -4,6 +4,7 @@ CHECK FOR::
 Automatic C:
  - check that McCabe complexity isn't  >4
  - no repeated code
+ - improperly named routines
 
  Other things to check:
  - labeled break statements
